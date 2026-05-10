@@ -6,9 +6,13 @@ const adminRoutes=require("./routes/adminRoutes")
 const emailRoutes=require("./routes/emailRoutes")
 const cartRoutes=require("./routes/cartRoutes")
 const path=require("path")
+const cors=require("cors")
 
 const app=express()
+
 dotEnv.config()
+app.use(cors())
+
 app.use(express.json())
 
 mongoose.connect(process.env.MONGO_URI)
@@ -26,11 +30,13 @@ app.use("/cart",cartRoutes)
 
 app.use("/uploads",express.static(path.join(__dirname,"uploads")))
 
-const PORT=8000;
+const PORT=process.env.PORT || 8000;
 
 app.listen(PORT, ()=>{
     console.log(`Server running @${PORT}`)
 })
 
-
+app.use('/',(req,res)=>{
+    res.send("<h1>Welcome to MERN-GROCERY-APP")
+})
 

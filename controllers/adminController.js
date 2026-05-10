@@ -10,6 +10,7 @@ exports.adminRegister=async(req,res)=>{
         if(adminRecord){
             return res.status(400).json({msg:"email already exists"})
         }
+
         const hashedPassword=await bcrypt.hash(password,10)
 
         const admin=await Admin.create({
@@ -26,7 +27,9 @@ exports.adminRegister=async(req,res)=>{
 exports.adminLogin=async(req,res)=>{
     try{
         const{email,password}=req.body;
+
         const adminRecord=await Admin.findOne({email})
+        
         if(!adminRecord){
             return res.status(401).json({msg:"invalid credentials"})
         }
