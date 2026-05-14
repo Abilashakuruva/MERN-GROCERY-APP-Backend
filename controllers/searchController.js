@@ -8,7 +8,11 @@ exports.searchProducts=async(req,res)=>{
             return res.status(400).json({msg:"search not found"})
         }
         const products=await Product.find({
-            name:{$regex:search,$options:"i"}
+            $or:[
+            {name:{$regex:search,$options:"i"}},
+            {category:{$regex:search,$options:"i"}}
+
+            ]
         })
         res.status(200).json({search:products})
     }catch(error){
